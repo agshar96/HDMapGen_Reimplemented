@@ -73,15 +73,15 @@
                 <div class="column has-text-centered">
                   <div class="publication-links">
                     <!-- Paper Link. -->
-                    <!-- <span class="link-block">
+                    <span class="link-block">
                         <a href="https://arxiv.org/abs/2106.14880"
                             class="external-link button is-normal is-rounded is-dark">
                                 <span class="icon">
                                 <i class="ai ai-arxiv"></i>
                                 </span>
-                                <span>arXiv</span>
+                                <span>Original Paper</span>
                         </a>
-                    </span> -->
+                    </span>
                     <!-- Code Link. -->
                     <span class="link-block">
                         <a href="https://github.com/agshar96/GRAN_Embedded/tree/HDMapGen"
@@ -104,7 +104,7 @@
     <section class="hero" id="Abstract">
         <div class="hero-body">
           <div class="container pb-4">
-            <h2 class="title is-3">1. Abstract</h2>
+            <h2 class="title is-3" style="font-family: Calibri;">Abstract</h2>
             <p>
               In the following project, we present the first reimplementation of the paper, 
               <a href="https://arxiv.org/abs/2106.14880" class="black-link">HDMapGen: A Hierarchical Graph Generative Model of High Definition Maps</a>,  a autoregressive graph neural network model for generating high-definition (HD) 2D road maps. The project presents a comprehensive analysis of modifications made to the original model to ensure functionality and effectiveness. Furthermore, we contribute to the field by releasing the source code for our reimplementation alongside pre-trained weights specifically optimized for the nuPlan dataset.
@@ -112,6 +112,7 @@
           </div>
           <div class="container is-max-desktop has-text-centered">
             <image src="./static/images/Temp_result.png" width="100%" height="100%"/>
+            <p>Figure 1: nuPlan Generations</p>
           </div>
         </div>
     </section>
@@ -119,16 +120,16 @@
     <section class="hero" id="Introduction">
       <div class="hero-body pb-3">
         <div class="container">
-          <h2 class="title is-3">2. Introduction</h2>
+          <h2 class="title is-3">1. Introduction</h2>
           <p>The HDMapGen paper modifies the GRAN architecture to generate High-definition maps. As our base approach, we use a modified version of GraphRNN - an older auto-regressive architecture - to serve as our baseline. We found that graphRNN usually fails to learn even simpler road maps.</p>
           <div class="container is-max-desktop has-text-centered my-4">
             <image src="./static/images/Introduction/graphRNN.png" width="50%" height="50%"/>
-            <p>Figure 1: GraphRNN fails to converge</p>
+            <p>Figure 2: GraphRNN fails to converge</p>
           </div>
           <p>The base performance of GRAN architecture on these maps is also unsatisfactory.</p>
           <div class="container is-max-desktop has-text-centered my-4">
             <image src="./static/images/Introduction/GRAN_base.png" width="50%" height="50%"/>
-            <p>Figure 2: Base GRAN with embeddings also fails</p>
+            <p>Figure 3: Base GRAN with embeddings also fails</p>
           </div>
           <p>We identified shortcomings in the GRAN architecture and addressed them through several modifications. The subsequent sections detail the impact of these changes on the final learning performance. It's important to note that similar modifications were not explored with GraphRNN.</p>
           <p>For most experiments, we present results on a simpler grid dataset, which is included in our base code. This grid graph serves as a valuable benchmark to test the model's core functionality. Our experiments reveal that results on the grid dataset generalize well to the larger nuPlan dataset, where the final network training takes place.</p>
@@ -140,7 +141,7 @@
       <div class="hero-body">
         <div class="container pb-3" id="Common">
           <!-- Main Heading -->
-          <h2 class="title is-3">3. Experiments</h2>
+          <h2 class="title is-3">2. Experiments</h2>
           <p>The base GRAN model learns only the adjacency matrix. We first extend it by adding an additional head to predict node positions using L2 loss. Subsequently, the predicted node positions, along with the learned latent adjacency representation, were used to predict subnode positions, again with L2 loss.</p>
           <div class="container has-text-centered my-3">
             <div class="columns pt-3" style="margin-bottom: 0px;">
@@ -153,7 +154,7 @@
                 <p>(b) Only Nodes with coordinates</p>
               </div>
             </div>
-            <p class="pb-3">Figure 3: The base GRAN works successfully for 3x3 grid</p>
+            <p class="pb-3">Figure 4: The base GRAN works successfully for 3x3 grid</p>
           </div>
           <p>While just making the modifications work for a small 3x3 grid, they fail for larger graphs, even for 5x5 grids:</p>
           <div class="container has-text-centered my-3">
@@ -167,19 +168,19 @@
                 <p>(b) Only Nodes with coordinates</p>
               </div>
             </div>
-            <p class="pb-3">Figure 4: The base GRAN breaks even for slightly more complex grid</p>
+            <p class="pb-3">Figure 5: The base GRAN breaks even for slightly more complex grid</p>
           </div>
           <p>These limitations necessitated modifications to both the training strategies and model architecture choices.</p>
         </div>
         <div class="container pt-4 pb-3" id="Noise">
-          <h3 class="title is-4">3.1 Adding noise to the node(and subnode) positions </h3>
+          <h3 class="title is-4">2.1 Adding noise to the node(and subnode) positions </h3>
           <p>While training on graphs larger than 5x5, we observed a critical issue. The training dataset solely included graphs with specific node positions (e.g., (1,1) or (1,2) etc). During the autoregressive generation process, any deviation from these exact positions – for instance, if (1,1) changed to (1.0059, 0.99956) – resulted in a complete collapse of the graph generation.</p>
           <div class="container is-max-desktop has-text-centered my-4" id="5x5_failure_video">
             <video poster="" id="5x5_break" autoplay controls muted loop playsinline height="50%">
               <source src="./static/images/Experiments/noise/5x5_break.mp4"
                       type="video/mp4">
             </video>
-            <p>Figure 5: Deviation from training positions (28 sec) causes collapse</p>
+            <p>Figure 6: Deviation from training positions (28 sec) causes collapse</p>
           </div>
           <p>To address this challenge, we introduced a small amount of Gaussian noise to each node position. This intervention effectively helped the model learn a more generalizable underlying structure for the graphs.</p>
           <div class="container is-max-desktop has-text-centered my-4" id="5x5_failure_video">
@@ -187,12 +188,12 @@
               <source src="./static/images/Experiments/noise/5x5 success.mp4"
                       type="video/mp4">
             </video>
-            <p>Figure 6: Addition of noise stablizes the training and helps the generation</p>
+            <p>Figure 7: Addition of noise stablizes the training and helps the generation</p>
           </div>
           <p>This approach is analogous to data augmentation techniques commonly employed in other deep learning applications However, in our case level of noise depends on the chosen node position representation. In dense normalized graphs, the standard deviation must be low. Conversely, sparser graphs necessitate a higher level of noise to encourage exploration of a wider range of positions during training.</p>
         </div>
         <div class="container pt-4 pb-3" id="Subnode">
-          <h3 class="title is-4">3.2 Implementation of subnode prediction network</h3>
+          <h3 class="title is-4">2.2 Implementation of subnode prediction network</h3>
           <p>In the HDMapGen paper, authors learn the subnode prediction network and node prediction + adjacency prediction network separately. In contrast, our implementation leverages a joint training strategy.</p>
           <p>We employ L2 loss for subnode prediction, aiming for precise subnode coordinate forecasts when edges exist. Conversely, for non-existent edges, we predict subnode coordinates as (0,0). To achieve this, we incorporate an additional MLP (Multi-Layer Perceptron) within the network. This MLP takes two inputs:
             <ol class="my-2" style="padding-left:45px">
@@ -213,11 +214,11 @@
                 <p>(b) Trained without subnodes</p>
               </div>
             </div>
-            <p class="pb-3">Figure 7: When training with subnodes for similar amount of epochs, we recieve more consistent generations.</p>
+            <p class="pb-3">Figure 8: When training with subnodes for similar amount of epochs, we recieve more consistent generations.</p>
           </div>
         </div>
         <div class="container pt-4 pb-3" id="GMMLoss">
-          <h3 class="title is-4">3.3 Replacing L2 loss with 2D Gaussian Mixture Model Loss</h3>
+          <h3 class="title is-4">2.3 Replacing L2 loss with 2D Gaussian Mixture Model Loss</h3>
           <p>The authors of the HDMapGen paper employ GMM loss instead of the more common L2 loss function. While the paper does not explicitly discuss the rationale behind this choice, our experiments using L2 loss provide valuable insights into the potential advantages of GMM loss.</p>
           <p>Consider two discretized grids, one of size 3x3 and another of size 4x4, with node generation ordered using Depth-First Search (DFS). For the 3x3 grid, the DFS traversal would result in the following node generation sequence:</p>
           <p class="my-2" style="padding-left:20px">[1,1] → [1,0] → [0,0] → [0,1] → [0,2] → [1,2] → and so on</p>
@@ -254,12 +255,12 @@
               <image src="./static/images/Experiments/GMMLoss/GMM_success.png" width="50%" height="50%"/>
               <p>(b) GMMLoss enables successful multigraph generations.</p>
             </div>
-            <p>Figure 8: Comparision of different losses</p>
+            <p>Figure 9: Comparision of different losses</p>
           </div> 
 
         </div>
         <div class="container pt-4 pb-3" id="StopNode">
-          <h3 class="title is-4">3.4 Effect of stop node</h3>
+          <h3 class="title is-4">2.4 Effect of stop node</h3>
           <p>The baseline implementation of GRAN lacks a dedicated "stop node" mechanism. During training, it records a distribution over the number of nodes present in various graphs within the dataset. At test time, it generates a graph with the maximum number of nodes observed during training. Subsequently, it samples the number of nodes from the learned distribution and discards any nodes exceeding that sample.</p>
           <p>For instance, if the training data comprises equally distributed graphs of sizes 3x3, 4x4, and 5x5, the model will consistently generate a 5x5 graph. It then samples the number of nodes from the set {9, 16, 25} and discards any nodes exceeding the sampled value. While this strategy proved effective for GRAN's task of solely generating adjacency matrices, it can introduce artifacts in our scenario.</p>
           <div class="container has-text-centered my-3">
@@ -282,7 +283,7 @@
           </div>
         </div>
         <div class="container pt-4 pb-3" id="numMixtures">
-          <h3 class="title is-4">3.5 Effect of number of mixtures</h3>
+          <h3 class="title is-4">2.5 Effect of number of mixtures</h3>
           <p>Our experiments revealed a positive correlation between the number of Gaussian mixtures employed in the GMM loss function and the resulting model performance. We hypothesize that this performance improvement will eventually plateau at a specific number of mixtures. However, due to training resource limitations, we were unable to exhaustively test a wider range of models on the entire nuPlan dataset.</p>
           <p>In lieu of a comprehensive evaluation on the full dataset, we utilized loss curves as a proxy to gauge model performance. By analyzing the loss curves, we could observe the impact of increasing the number of Gaussian mixtures on the model's ability to learn and minimize the loss function.</p>
           <div class="container is-max-desktop has-text-centered my-4">
