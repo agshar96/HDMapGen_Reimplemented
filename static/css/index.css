@@ -135,6 +135,10 @@ body {
   margin: 0;
 }
 
+.results-carousel image {
+  margin: 5px;
+}
+
 .interpolation-panel {
   background: #f5f5f5;
   border-radius: 10px;
