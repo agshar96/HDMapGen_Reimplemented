@@ -84,7 +84,7 @@
                     </span>
                     <!-- Code Link. -->
                     <span class="link-block">
-                        <a href="https://github.com/agshar96/GRAN_Embedded/tree/HDMapGen"
+                        <a href="https://github.com/agshar96/HDMapGen"
                             class="external-link button is-normal is-rounded is-dark">
                               <span class="icon">
                                 <i class="fab fa-github"></i>
@@ -111,7 +111,80 @@
             </p>
           </div>
           <div class="container is-max-desktop has-text-centered">
-            <image src="./static/images/Temp_result.png" width="100%" height="100%"/>
+            <div id="results-carousel" class="carousel results-carousel">
+              <div class="item-1">
+                <img src="./static/images/Trained_viz/1.png" alt="HDMapGen result 1"/>
+              </div>
+              <div class="item-2">
+                <img src="./static/images/Trained_viz/2.png" alt="HDMapGen result 2"/>
+              </div>
+              <div class="item-3">
+                <img src="./static/images/Trained_viz/3.png" alt="HDMapGen result 3"/>
+              </div>
+              <div class="item-4">
+                <img src="./static/images/Trained_viz/4.png" alt="HDMapGen result 4"/>
+              </div>
+              <div class="item-5">
+                <img src="./static/images/Trained_viz/5.png" alt="HDMapGen result 5"/>
+              </div>
+              <div class="item-6">
+                <img src="./static/images/Trained_viz/6.png" alt="HDMapGen result 6"/>
+              </div>
+              <div class="item-7">
+                <img src="./static/images/Trained_viz/7.png" alt="HDMapGen result 7"/>
+              </div>
+              <div class="item-8">
+                <img src="./static/images/Trained_viz/8.png" alt="HDMapGen result 8"/>
+              </div>
+              <div class="item-9">
+                <img src="./static/images/Trained_viz/9.png" alt="HDMapGen result 9"/>
+              </div>
+              <div class="item-10">
+                <img src="./static/images/Trained_viz/10.png" alt="HDMapGen result 10"/>
+              </div>
+              <div class="item-11">
+                <img src="./static/images/Trained_viz/11.png" alt="HDMapGen result 11"/>
+              </div>
+              <div class="item-12">
+                <img src="./static/images/Trained_viz/12.png" alt="HDMapGen result 12"/>
+              </div>
+              <div class="item-13">
+                <img src="./static/images/Trained_viz/13.png" alt="HDMapGen result 13"/>
+              </div>
+              <div class="item-14">
+                <img src="./static/images/Trained_viz/14.png" alt="HDMapGen result 14"/>
+              </div>
+              <div class="item-15">
+                <img src="./static/images/Trained_viz/15.png" alt="HDMapGen result 15"/>
+              </div>
+              <div class="item-16">
+                <img src="./static/images/Trained_viz/16.png" alt="HDMapGen result 16"/>
+              </div>
+              <div class="item-17">
+                <img src="./static/images/Trained_viz/17.png" alt="HDMapGen result 17"/>
+              </div>
+              <div class="item-18">
+                <img src="./static/images/Trained_viz/18.png" alt="HDMapGen result 18"/>
+              </div>
+              <div class="item-19">
+                <img src="./static/images/Trained_viz/19.png" alt="HDMapGen result 19"/>
+              </div>
+              <div class="item-20">
+                <img src="./static/images/Trained_viz/20.png" alt="HDMapGen result 20"/>
+              </div>
+              <div class="item-21">
+                <img src="./static/images/Trained_viz/21.png" alt="HDMapGen result 21"/>
+              </div>
+              <div class="item-22">
+                <img src="./static/images/Trained_viz/22.png" alt="HDMapGen result 22"/>
+              </div>
+              <div class="item-23">
+                <img src="./static/images/Trained_viz/23.png" alt="HDMapGen result 23"/>
+              </div>
+              <div class="item-24">
+                <img src="./static/images/Trained_viz/24.png" alt="HDMapGen result 24"/>
+              </div>
+            </div>
             <p>Figure 1: nuPlan Generations</p>
           </div>
         </div>
@@ -134,6 +207,7 @@
           <p>We identified shortcomings in the GRAN architecture and addressed them through several modifications. The subsequent sections detail the impact of these changes on the final learning performance. It's important to note that similar modifications were not explored with GraphRNN.</p>
           <p>For most experiments, we present results on a simpler grid dataset, which is included in our base code. This grid graph serves as a valuable benchmark to test the model's core functionality. Our experiments reveal that results on the grid dataset generalize well to the larger nuPlan dataset, where the final network training takes place.</p>
           <p>In addition to the experiment details, we are also releasing our implementation along with trained weights for a subset of the nuPlan dataset. Weights for the model trained on the complete nuPlan dataset will be made available upon the release of the <a href="https://github.com/autonomousvision/sledge">"SLEDGE"</a> code.</p>
+        </div>
       </div>
     </section>
 
@@ -291,6 +365,20 @@
             <p>Figure 11: Training Curve Comparision: The yellow curve corresponds to 20 mixtures</p>
           </div>
         </div>
+    </section>
+
+    <section class="hero" id="BibTeX">
+      <div class="hero-body pb-3">
+        <div class="container">
+          <h2 class="title is-3">3. BibTeX</h2>
+          <pre><code style="font-size: 18px;">@misc{agshar96HDMapGenReimplementation,
+            author = {},
+            title = {{H}{D}{M}ap{G}en: {R}eimplementation and {E}xperiments --- agshar96.github.io},
+            howpublished = {\url{https://agshar96.github.io/HDMapGen_Reimplemented/}},
+            year = {2024},
+          }</code></pre>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
