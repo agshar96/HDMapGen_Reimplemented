@@ -7,6 +7,7 @@
   <meta name="keywords" content="HDMapGen, Graph-generation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HDMapGen: Reimplementation and Experiments</title>
+  <meta name="google-site-verification" content="cv4Xy6LeX95t_2oCBXo0QJjGIud2LXn49bSUoIQV4p4" />
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -107,7 +108,7 @@
             <h2 class="title is-3" style="font-family: Calibri;">Abstract</h2>
             <p>
               In the following project, we present the first reimplementation of the paper, 
-              <a href="https://arxiv.org/abs/2106.14880" class="black-link">HDMapGen: A Hierarchical Graph Generative Model of High Definition Maps</a>,  a autoregressive graph neural network model for generating high-definition (HD) 2D road maps. The project presents a comprehensive analysis of modifications made to the original model to ensure functionality and effectiveness. Furthermore, we contribute to the field by releasing the source code for our reimplementation alongside pre-trained weights specifically optimized for the nuPlan dataset.
+              <a href="https://arxiv.org/abs/2106.14880" class="black-link">HDMapGen: A Hierarchical Graph Generative Model of High Definition Maps</a> [<a href="#HDMAPGEN_1">1</a>]  a autoregressive graph neural network model for generating high-definition (HD) 2D road maps. The project presents a comprehensive analysis of modifications made to the original model to ensure functionality and effectiveness. Furthermore, we contribute to the field by releasing the source code for our reimplementation alongside pre-trained weights specifically optimized for the nuPlan dataset [<a href="#NUPLAN_5">5</a>].
             </p>
           </div>
           <div class="container is-max-desktop has-text-centered">
@@ -194,7 +195,7 @@
       <div class="hero-body pb-3">
         <div class="container">
           <h2 class="title is-3">1. Introduction</h2>
-          <p>The HDMapGen paper modifies the GRAN architecture to generate High-definition maps. As our base approach, we use a modified version of GraphRNN - an older auto-regressive architecture - to serve as our baseline. We found that graphRNN usually fails to learn even simpler road maps.</p>
+          <p>The HDMapGen paper modifies the GRAN [<a href="#GRAN_3">3</a>] architecture to generate High-definition maps. As our base approach, we use a modified version of GraphRNN [<a href="#GRAPHRNN_2">2</a>] - an older auto-regressive architecture - to serve as our baseline. We found that graphRNN usually fails to learn even simpler road maps.</p>
           <div class="container is-max-desktop has-text-centered my-4">
             <image src="./static/images/Introduction/graphRNN.png" width="50%" height="50%"/>
             <p>Figure 2: GraphRNN fails to converge</p>
@@ -206,7 +207,7 @@
           </div>
           <p>We identified shortcomings in the GRAN architecture and addressed them through several modifications. The subsequent sections detail the impact of these changes on the final learning performance. It's important to note that similar modifications were not explored with GraphRNN.</p>
           <p>For most experiments, we present results on a simpler grid dataset, which is included in our base code. This grid graph serves as a valuable benchmark to test the model's core functionality. Our experiments reveal that results on the grid dataset generalize well to the larger nuPlan dataset, where the final network training takes place.</p>
-          <p>In addition to the experiment details, we are also releasing our implementation along with trained weights for a subset of the nuPlan dataset. Weights for the model trained on the complete nuPlan dataset will be made available upon the release of the <a href="https://github.com/autonomousvision/sledge">"SLEDGE"</a> code.</p>
+          <p>In addition to the experiment details, we are also releasing our implementation along with trained weights for a subset of the nuPlan dataset. Weights for the model trained on the complete nuPlan dataset will be made available upon the release of the "SLEDGE" [<a href="#SLEDGE_4">4</a>] code.</p>
         </div>
       </div>
     </section>
@@ -220,12 +221,12 @@
           <div class="container has-text-centered my-3">
             <div class="columns pt-3" style="margin-bottom: 0px;">
               <div class="column has-text-centered">
-                <image src="./static/images/Experiments/common/subnode_3x3/test_graphs_subnodes_1.png" width="100%" height="100%"/>
-                <p>(a) Subnodes</p>
+                <image src="./static/images/Experiments/common/subnode_3x3/test_graphs_1.png" width="100%" height="100%"/>
+                <p>(a) Only Nodes with coordinates</p>                
               </div>
               <div class="column has-text-centered">
-                <image src="./static/images/Experiments/common/subnode_3x3/test_graphs_1.png" width="100%" height="100%"/>
-                <p>(b) Only Nodes with coordinates</p>
+                <image src="./static/images/Experiments/common/subnode_3x3/test_graphs_subnodes_1.png" width="100%" height="100%"/>
+                <p>(b) Subnodes</p>
               </div>
             </div>
             <p class="pb-3">Figure 4: The base GRAN works successfully for 3x3 grid</p>
@@ -234,12 +235,12 @@
           <div class="container has-text-centered my-3">
             <div class="columns pt-3" style="margin-bottom: 0px;">
               <div class="column has-text-centered">
-                <image src="./static/images/Experiments/common/5x5/subnode.png" width="100%" height="100%"/>
-                <p>(a) Subnodes</p>
+                <image src="./static/images/Experiments/common/5x5/embed.png" width="100%" height="100%"/>
+                <p>(a) Only Nodes with coordinates</p>
               </div>
               <div class="column has-text-centered">
-                <image src="./static/images/Experiments/common/5x5/embed.png" width="100%" height="100%"/>
-                <p>(b) Only Nodes with coordinates</p>
+                <image src="./static/images/Experiments/common/5x5/subnode.png" width="100%" height="100%"/>
+                <p>(b) Subnodes</p>
               </div>
             </div>
             <p class="pb-3">Figure 5: The base GRAN breaks even for slightly more complex grid</p>
@@ -247,7 +248,7 @@
           <p>These limitations necessitated modifications to both the training strategies and model architecture choices.</p>
         </div>
         <div class="container pt-4 pb-3" id="Noise">
-          <h3 class="title is-4">2.1 Adding noise to the node(and subnode) positions </h3>
+          <h3 class="title is-4">2.1 Adding noise to the node (and subnode) positions </h3>
           <p>While training on graphs larger than 5x5, we observed a critical issue. The training dataset solely included graphs with specific node positions (e.g., (1,1) or (1,2) etc). During the autoregressive generation process, any deviation from these exact positions – for instance, if (1,1) changed to (1.0059, 0.99956) – resulted in a complete collapse of the graph generation.</p>
           <div class="container is-max-desktop has-text-centered my-4" id="5x5_failure_video">
             <video poster="" id="5x5_break" autoplay controls muted loop playsinline height="50%">
@@ -299,24 +300,24 @@
           <p>Similarly, for the 4x4 grid, the sequence would be:</p>
           <p class="my-2" style="padding-left:20px">[1,1] → [1,0] → [0,0] → [0,1] → [0,2] → [0,3] → and so on</p>
           <p>Crucially, for the same underlying sequence, the model can potentially predict two distinct positions due to the discretization of the grid space. When using L2 loss, the model might be inclined to favor an average position between these two valid options. However, ideally, we would prefer the model to definitively select one of these positions.</p>
-          <p>Given the limitations of L2 loss in this scenario, GMM loss emerges as a more suitable alternative. GMM loss allows the model to capture the inherent multi-modality of the problem, effectively representing the two possible prediction points within the grid space. This enables the model to make a more precise selection, aligning better with the desired outcome.</p>
-          <!-- <div class="container has-text-centered my-3">
+          <div class="container has-text-centered my-3">
             <div class="columns pt-3" style="margin-bottom: 0px;">
               <div class="column has-text-centered">
-                <video poster="" autoplay controls muted loop playsinline height="50%">
-                  <source src="./static/images/Experiments/GMMLoss/L2_fail.mp4"
-                          type="video/mp4">
-                </video>
-                <p>(a) L2 loss fails on a dataset of 3x3 with 4x4 grids</p>
+                <image src="./static/images/Experiments/GMMLoss/3x3_next.png" width="100%" height="100%"/>
+                <p>(a) For 3x3 next node is [1,2]</p>
               </div>
               <div class="column has-text-centered">
-                <image src="./static/images/Experiments/GMMLoss/GMM_success.png" width="50%" height="100%"/>
-                <p>(b) GMMLoss enables successful multigraph generations.</p>
+                <image src="./static/images/Experiments/GMMLoss/4x4_next.png" width="100%" height="100%"/>
+                <p>(b) For 4x4 next node is [0,3]</p>
+              </div>
+              <div class="column has-text-centered">
+                <image src="./static/images/Experiments/GMMLoss/l2_approx.png" width="100%" height="100%"/>
+                <p>(c) L2 loss results in an average coordinate</p>
               </div>
             </div>
-            <p class="pb-3">Figure 8: Comparision of different losses</p>
+            <p class="pb-3">Figure 9: Problem with L2 Loss</p>
           </div>
-          </div> -->           
+          <p>Given the limitations of L2 loss in this scenario, GMM loss emerges as a more suitable alternative. GMM loss allows the model to capture the inherent multi-modality of the problem, effectively representing the two possible prediction points within the grid space. This enables the model to make a more precise selection, aligning better with the desired outcome.</p>       
           <div class="container is-max-desktop has-text-centered my-4" id="L2_fail">
             <div class="container pb-2">
               <video poster="" autoplay controls muted loop playsinline height="50%">
@@ -329,9 +330,14 @@
               <image src="./static/images/Experiments/GMMLoss/GMM_success.png" width="50%" height="50%"/>
               <p>(b) GMMLoss enables successful multigraph generations.</p>
             </div>
-            <p>Figure 9: Comparision of different losses</p>
+            <p>Figure 10: Comparision of different losses</p>
           </div> 
-
+          <p>Our experiments revealed a positive correlation between the number of Gaussian mixtures employed in the GMM loss function and the resulting model performance. We hypothesize that this performance improvement will eventually plateau at a specific number of mixtures. However, due to training resource limitations, we were unable to exhaustively test a wider range of models on the entire nuPlan dataset.</p>
+          <p>In lieu of a comprehensive evaluation on the full dataset, we utilized loss curves as a proxy to gauge model performance. By analyzing the loss curves, we could observe the impact of increasing the number of Gaussian mixtures on the model's ability to learn and minimize the loss function.</p>
+          <div class="container is-max-desktop has-text-centered my-4">
+            <image src="./static/images/Experiments/numMixtures/loss_curves.png" width="100%" height="100%"/>
+            <p>Figure 11: Training Curve Comparision: The yellow curve corresponds to 20 mixtures</p>
+          </div>
         </div>
         <div class="container pt-4 pb-3" id="StopNode">
           <h3 class="title is-4">2.4 Effect of stop node</h3>
@@ -348,15 +354,15 @@
                 <p>(b) 3x3 grid with extra generated nodes</p>
               </div>
             </div>
-            <p class="pb-3">Figure 10: Failure cases because of no stop node</p>
+            <p class="pb-3">Figure 12: Failure cases because of no stop node</p>
           </div>
           <p>To address this limitation and facilitate task-specific generation, we introduce a novel "stop node" concept. This node connects to all previously generated nodes and serves as a signal for the model to terminate the generation process. The inclusion of this stop node ensures that the model generates graphs with the desired number of nodes, eliminating the generation of unnecessary nodes and associated artifacts.</p>
           <div class="container is-max-desktop has-text-centered my-4">
             <image src="./static/images/Experiments/stopNode/STOP_NODE_SUCCESS.png" width="70%" height="70%"/>
-            <p>Figure 10: Introducing 'STOP NODE' leads to successful multigraph generation</p>
+            <p>Figure 13: Introducing 'STOP NODE' leads to successful multigraph generation</p>
           </div>
         </div>
-        <div class="container pt-4 pb-3" id="numMixtures">
+        <!-- <div class="container pt-4 pb-3" id="numMixtures">
           <h3 class="title is-4">2.5 Effect of number of mixtures</h3>
           <p>Our experiments revealed a positive correlation between the number of Gaussian mixtures employed in the GMM loss function and the resulting model performance. We hypothesize that this performance improvement will eventually plateau at a specific number of mixtures. However, due to training resource limitations, we were unable to exhaustively test a wider range of models on the entire nuPlan dataset.</p>
           <p>In lieu of a comprehensive evaluation on the full dataset, we utilized loss curves as a proxy to gauge model performance. By analyzing the loss curves, we could observe the impact of increasing the number of Gaussian mixtures on the model's ability to learn and minimize the loss function.</p>
@@ -364,7 +370,7 @@
             <image src="./static/images/Experiments/numMixtures/loss_curves.png" width="100%" height="100%"/>
             <p>Figure 11: Training Curve Comparision: The yellow curve corresponds to 20 mixtures</p>
           </div>
-        </div>
+        </div> -->
     </section>
 
     <section class="hero" id="BibTeX">
@@ -377,6 +383,21 @@
             howpublished = {\url{https://agshar96.github.io/HDMapGen_Reimplemented/}},
             year = {2024},
           }</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero" id="References">
+      <div class="hero-body pb-3">
+        <div class="container">
+          <h2 class="title is-3">4. References</h2>
+            <ul style="list-style: none;">
+              <li id="HDMAPGEN_1">[<a href="https://arxiv.org/pdf/2106.14880">1</a>] Lu Mi, et al. "HDMapGen: A Hierarchical Graph Generative Model of High Definition Maps." arXiv preprint arXiv:2106.14880 (2021).</li>
+              <li id="GRAPHRNN_2">[<a href="https://arxiv.org/pdf/1802.08773">2</a>] Jiaxuan You, et al. "GraphRNN: Generating Realistic Graphs with Deep Auto-regressive Models." arXiv preprint arXiv:1802.08773 (2018).</li>
+              <li id="GRAN_3">[<a href="https://arxiv.org/pdf/1910.00760">3</a>] Renjie Liao et al. "Efficient Graph Generation with Graph Recurrent Attention Networks." arXiv preprint arXiv:1910.00760 (2020).</li>
+              <li id="SLEDGE_4">[<a href="https://arxiv.org/pdf/2403.17933">4</a>] Kashyap Chitta, et al. "SLEDGE: Synthesizing Simulation Environments for Driving Agents with Generative Models." arXiv preprint arXiv:2403.17933 (2024).</li>
+              <li id="NUPLAN_5">[<a href="https://arxiv.org/pdf/2106.11810">5</a>] Holger Caesar et al. "NuPlan: A closed-loop ML-based planning benchmark for autonomous vehicles." arXiv preprint arXiv:2106.11810 (2022).</li>
+            </ol>
         </div>
       </div>
     </section>
